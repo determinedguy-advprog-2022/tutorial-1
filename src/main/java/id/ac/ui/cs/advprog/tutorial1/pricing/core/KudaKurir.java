@@ -12,6 +12,6 @@ public class KudaKurir implements Kurir {
     }
 
     public int calculatePrice(int weight) {
-        return weight * this.pricePerKilogram;
+        return new CalculatePriceWithoutFee().calculatePrice(weight, this.pricePerKilogram);
     }
 }

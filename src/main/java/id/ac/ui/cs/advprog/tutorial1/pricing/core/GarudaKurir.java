@@ -14,6 +14,6 @@ public class GarudaKurir implements Kurir {
     }
 
     public int calculatePrice(int weight) {
-        return this.priceFlat + (weight * this.pricePerKilogram);
+        return new CalculatePriceWithFee(this.priceFlat).calculatePrice(weight, this.pricePerKilogram);
     }
 }
