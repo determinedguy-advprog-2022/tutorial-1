@@ -1,18 +1,23 @@
 package id.ac.ui.cs.advprog.tutorial1.pricing.core;
 
 public class GarudaKurir implements Kurir {
+    private int pricePerKilogram;
+    private int priceFlat;
     
     public GarudaKurir(int pricePerKilogram) {
-        // TODO
+        this.pricePerKilogram = pricePerKilogram;
+        this.priceFlat = 2000;
     }
 
     public String getName() {
-        // TODO
-        return "";
+        return "Garuda";
     }
 
     public int calculatePrice(int weight) {
-        // TODO
-        return 0;
+        return new CalculatePriceWithFee(this.priceFlat).calculatePrice(weight, this.pricePerKilogram);
+    }
+
+    public String printPrice(int weight) {
+        return new CalculatePriceWithFee(this.priceFlat).getDescription(weight, this.pricePerKilogram);
     }
 }
