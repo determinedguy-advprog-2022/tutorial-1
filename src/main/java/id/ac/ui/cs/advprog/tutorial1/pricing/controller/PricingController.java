@@ -23,7 +23,6 @@ public class PricingController {
         return "pricing/home";
     }
 
-    //ToDo: Fill with a correct method
     @RequestMapping(path = "/calculate-price", method= RequestMethod.POST)
     public String calculatePrice(Model model,
             @RequestParam(value = "weight", required = true) int weight,
