@@ -5,4 +5,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public interface Asuransi {
     String getName();
     int getPrice();
+    String printPrice();
 }

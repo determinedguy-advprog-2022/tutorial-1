@@ -14,4 +14,9 @@ public class KudaKurir implements Kurir {
     public int calculatePrice(int weight) {
         return new CalculatePriceWithoutFee().calculatePrice(weight, this.pricePerKilogram);
     }
+
+    public String printPrice(int weight) {
+        return String.format("Harga jasa kurir: %d x %d = %d civil credits\n", weight, this.pricePerKilogram,
+                calculatePrice(weight));
+    }
 }

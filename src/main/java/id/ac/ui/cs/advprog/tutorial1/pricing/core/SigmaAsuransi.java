@@ -17,4 +17,8 @@ public class SigmaAsuransi implements Asuransi {
         return this.price;
     }
 
+    public String printPrice() {
+        return String.format("Harga jasa asuransi: %d civil credits\n", this.price);
+    }
+
 }

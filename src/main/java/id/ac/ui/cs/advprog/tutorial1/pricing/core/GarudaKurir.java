@@ -16,4 +16,9 @@ public class GarudaKurir implements Kurir {
     public int calculatePrice(int weight) {
         return new CalculatePriceWithFee(this.priceFlat).calculatePrice(weight, this.pricePerKilogram);
     }
+
+    public String printPrice(int weight) {
+        return String.format("Harga jasa kurir: %d x %d + %d = %d civil credits\n", weight, this.pricePerKilogram,
+                this.priceFlat, calculatePrice(weight));
+    }
 }
