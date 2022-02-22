@@ -11,7 +11,7 @@ public class Courier implements RoadUser {
     private int speed;
     private List<String> allowedRoutes = new ArrayList<>();
     private List<String> originalRoutes = new ArrayList<>();
-    private EventMonitorRepository eventMonitorRepository;
+    private List<EventMonitor> allEventMonitor = new ArrayList<>();
 
     /*
         speed: the speed of the courier
@@ -24,36 +24,16 @@ public class Courier implements RoadUser {
         this.originalRoutes.addAll(allowedRoutes);
     }
 
-    // Function to make list of sweets monitors
-    public List<SweetsMonitor> makeSweetsMonitorList() {
-        List<EventMonitor> eventMonitors = new ArrayList<>();
-        List<SweetsMonitor> sweetsMonitorList = new ArrayList<>();
-
-        if (eventMonitorRepository != null) {
-            eventMonitors = eventMonitorRepository.findAll();
-        }
-
-        if (!eventMonitors.isEmpty()) {
-            for (EventMonitor event : eventMonitors) {
-                if (event.getName().equals("Sweets Monitor")) {
-                    sweetsMonitorList.add((SweetsMonitor) event);
+    // Function to check if the monitor is SweetsMonitor and the courier is in it
+    public SweetsMonitor getIfSweetsCourier() {
+        if (!allEventMonitor.isEmpty()) {
+            for (EventMonitor event : allEventMonitor) {
+                if (event.getName().equals("Sweets Monitor") && event.getRoadUserList().contains(this)) {
+                    return (SweetsMonitor) event;
                 }
             }
         }
-
-        return sweetsMonitorList;
-    }
-
-    // Function to check if the courier (this) is in SweetsMonitor
-    public boolean isSweetsMonitorsContainCourier(List<SweetsMonitor> sweetsMonitorList) {
-        if (!sweetsMonitorList.isEmpty()) {
-            for (SweetsMonitor event : sweetsMonitorList) {
-                if (event.getRoadUserList().contains(this)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return null;
     }
 
     @Override
@@ -61,22 +41,19 @@ public class Courier implements RoadUser {
         // Handle Raiden behavior which is attracted to Sweets
         if (notificationFrom.equals("SweetsMonitor")) {
             // Remove the locations which are not the desired location
-            for (int i = 0;i < this.allowedRoutes.size(); i++) {
-                if (!this.allowedRoutes.get(i).equals(location)) {
-                    this.allowedRoutes.remove(i);
-                }
-            }
+            this.allowedRoutes.clear();
+            this.allowedRoutes.add(location);
         }
         // Handle Couriers' behavior which stay away from Drago
         else if (notificationFrom.equals("DragoMonitor")) {
             // Check if the courier is not in SweetsMonitor
-            if (!makeSweetsMonitorList().isEmpty() && !isSweetsMonitorsContainCourier(makeSweetsMonitorList())) {
+            if (getIfSweetsCourier() == null || !getIfSweetsCourier().getIsTriggered()) {
                 // Remove the location which Drago is in it
                 this.allowedRoutes.remove(location);
                 // Add (or re-add) original locations to allowed routes (excluding Drago's location)
-                for (String str : originalRoutes) {
-                    if (!allowedRoutes.contains(str) && !str.equals(location)) {
-                        allowedRoutes.add(str);
+                for (String originalRoute : originalRoutes) {
+                    if (!allowedRoutes.contains(originalRoute) && !originalRoute.equals(location)) {
+                        allowedRoutes.add(originalRoute);
                     }
                 }
             }
@@ -96,6 +73,11 @@ public class Courier implements RoadUser {
     @Override
     public List<String> getAllowedRoutes() {
         return this.allowedRoutes;
+    }
+
+    @Override
+    public void addEventMonitor(EventMonitorRepository eventMonitorRepository) {
+        this.allEventMonitor.addAll(eventMonitorRepository.findAll());
     }
     
 }

@@ -26,7 +26,9 @@ public class TrackingServiceImpl implements TrackingService {
 
     @Override
     public void handleNewEventLocation(String eventName, String location) {
+        // Notify users and update monitors
         eventMonitorRepository.findByName(eventName).notifyRoadUsers(location);
+        eventMonitorRepository.findByName(eventName).getEventMonitor(eventMonitorRepository);
     }
     
 }

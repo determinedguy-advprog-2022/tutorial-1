@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.tutorial1.tracking.core;
 
+import id.ac.ui.cs.advprog.tutorial1.tracking.repository.EventMonitorRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,8 @@ public class DragoHunter implements RoadUser {
     private int speed;
     private List<String> allowedRoutes  = new ArrayList<>();
     private List<String> originalRoutes  = new ArrayList<>();
+    private List<EventMonitor> allEventMonitor = new ArrayList<>();
+
     /*
         speed: the speed of the courier
         allowedRoutes: name of all possible routes this courier can visit
@@ -22,12 +26,9 @@ public class DragoHunter implements RoadUser {
 
     @Override
     public void handleNotification(String notificationFrom, String location) {
-        // As its name, it will hunt Drago
-        for (int i = 0;i < this.allowedRoutes.size(); i++) {
-            if (!this.allowedRoutes.get(i).equals(location)) {
-                this.allowedRoutes.remove(i);
-            }
-        }
+        // As its name, it will hunt Drago, so make the location equals to Drago's hunter
+        this.allowedRoutes.clear();
+        this.allowedRoutes.add(location);
     }
 
     @Override
@@ -43,6 +44,11 @@ public class DragoHunter implements RoadUser {
     @Override
     public List<String> getAllowedRoutes() {
         return this.allowedRoutes;
+    }
+
+    @Override
+    public void addEventMonitor(EventMonitorRepository eventMonitorRepository) {
+        this.allEventMonitor.addAll(eventMonitorRepository.findAll());
     }
     
 }
