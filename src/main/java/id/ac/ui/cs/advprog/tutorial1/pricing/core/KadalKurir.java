@@ -16,7 +16,6 @@ public class KadalKurir implements Kurir {
     }
 
     public String printPrice(int weight) {
-        return String.format("Harga jasa kurir: %d x %d = %d civil credits\n", weight, this.pricePerKilogram,
-                calculatePrice(weight));
+        return new CalculatePriceWithoutFee().getDescription(weight, this.pricePerKilogram);
     }
 }

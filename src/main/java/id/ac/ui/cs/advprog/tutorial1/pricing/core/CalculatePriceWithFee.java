@@ -11,4 +11,9 @@ public class CalculatePriceWithFee implements CalculatePrice{
     public int calculatePrice(int weight, int pricePerKilogram) {
         return fee + (weight * pricePerKilogram);
     }
+
+    public String getDescription(int weight, int pricePerKilogram) {
+        return String.format("Harga jasa kurir: %d x %d + %d = %d civil credits\n", weight, pricePerKilogram,
+                this.fee, this.calculatePrice(weight,pricePerKilogram));
+    }
 }
