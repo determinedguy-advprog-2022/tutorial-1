@@ -34,7 +34,7 @@ public class TrackingController {
                                 @RequestParam(value = "dragoLocation", required = true) String dragoLocation) {
         
     
-        // TODO: implement drago location handler
+        trackingService.handleNewEventLocation("Drago Monitor", dragoLocation);
 
         return "redirect:/tracking";
     }
@@ -42,9 +42,9 @@ public class TrackingController {
     @RequestMapping(path = "/new-sweets-location", method = RequestMethod.POST)
     public String handleNewSweets(Model model, 
                                 @RequestParam(value = "sweetsLocation", required = true) String sweetsLocation) {
-        
-    
-        // TODO: implement sweets location handler
+
+        trackingService.handleNewEventLocation("Sweets Monitor", sweetsLocation);
+
         return "redirect:/tracking";
     }
 }
